@@ -1,5 +1,6 @@
 " VIM Configuration File
 " Description: Optimized for C/C++ development, but useful also for other things.
+" Author: Gerhard Gappmeier
 
 " set UTF-8 encoding
 set enc=utf-8
@@ -16,13 +17,12 @@ set tabstop=8        " tab width is 4 spaces
 set shiftwidth=8     " indent also with 4 spaces
 " set expandtab        " expand tabs to spaces
 " wrap lines at 120 chars. 80 is somewhat antiquated with nowadays displays.
-set wrap
-set textwidth=80
+set textwidth=100
 " turn syntax highlighting on
 set t_Co=256
 syntax on
 
-colorscheme desert
+colorscheme wombat256
 " set background=dark
 
 " turn line numbers on
@@ -31,10 +31,6 @@ set number
 set showmatch
 " intelligent comments
 set comments=sl:/*,mb:\ *,elx:\ */
-
-" Allow backspacing over everything in insertmode
-set backspace=indent,eol,start
-set whichwrap+=<,>,h,l
 
 filetype plugin on
 
