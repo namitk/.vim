@@ -22,6 +22,9 @@ set textwidth=100
 set t_Co=256
 syntax on
 
+:noremap <C-left> :bprev<CR> 
+:noremap <C-right> :bnext<CR>
+
 colorscheme wombat256
 " set background=dark
 
