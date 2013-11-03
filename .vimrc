@@ -13,19 +13,44 @@ set autoindent
 " use intelligent indentation for C
 set smartindent
 " configure tabwidth and insert spaces instead of tabs
+set expandtab
 set tabstop=8        " tab width is 4 spaces
 set shiftwidth=8     " indent also with 4 spaces
 " set expandtab        " expand tabs to spaces
 " wrap lines at 120 chars. 80 is somewhat antiquated with nowadays displays.
-set textwidth=100
+set textwidth=80
 " turn syntax highlighting on
 set t_Co=256
+set nocscopeverbose
+set tags=tags;
+set statusline=%t
+
+hi User1 guifg=#ffdad8  guibg=#880c0e
+hi User2 guifg=#000000  guibg=#F4905C
+hi User3 guifg=#292b00  guibg=#f4f597
+hi User4 guifg=#112605  guibg=#aefe7B
+hi User5 guifg=#051d00  guibg=#7dcc7d
+hi User7 guifg=#ffffff  guibg=#880c0e gui=bold
+hi User8 guifg=#ffffff  guibg=#5b7fbb
+hi User9 guifg=#ffffff  guibg=#810085
+hi User0 guifg=#ffffff  guibg=#094afe
+
+set statusline=
+set statusline+=%7*\[%n\ %t]                                "buffernr+filename
+set statusline+=%2*\ %y\                                  "FileType
+set statusline+=%8*\ %=\ row:%l/%L\ (%03p%%)\             "Rownumber/total (%)
+set statusline+=%9*\ col:%03c\                            "Colnr
+set statusline+=%0*\ \ %m%r%w\ %P\ \                      "Modified? Readonly? Top/bot.
+
+execute pathogen#infect()
 syntax on
+filetype plugin indent on
 
 :noremap <C-left> :bprev<CR> 
 :noremap <C-right> :bnext<CR>
 
-colorscheme wombat256
+" colorscheme wombat256
+colorscheme gummybears
 " set background=dark
 
 " turn line numbers on
@@ -34,8 +59,6 @@ set number
 set showmatch
 " intelligent comments
 set comments=sl:/*,mb:\ *,elx:\ */
-
-filetype plugin on
 
 " Install OmniCppComplete like described on http://vim.wikia.com/wiki/C++_code_completion
 " This offers intelligent C++ completion when typing ‘.’ ‘->’ or <C-o>
@@ -83,3 +106,10 @@ if &diff
   " map <M-Up> [s
 endif
 
+highlight ExtraWhitespace ctermbg=darkgreen guibg=lightgreen
+" Show trailing whitespace:
+match ExtraWhitespace /\s\+$/
+" Show trailing whitespace and spaces before a tab:
+match ExtraWhitespace /\s\+$\| \+\ze\t/
+" Show tabs that are not at the start of a line:
+match ExtraWhitespace /[^\t]\zs\t\+/
