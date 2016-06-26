@@ -2,23 +2,81 @@
 " Description: Optimized for C/C++ development, but useful also for other things.
 " Author: Gerhard Gappmeier
 
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+set backspace=indent,eol,start
+set ruler
+" turn line numbers on
+set number
+set showcmd
+set incsearch
+set hlsearch
+
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+let g:ctrlp_working_path_mode = 'ra'
+let g:nerdtree_tabs_open_on_console_startup=1
+let mapleader=" "
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" " alternatively, pass a path where Vundle should install plugins
+" "call vundle#begin('~/some/path/here')
+"
+" " let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+"
+" The following are examples of different formats supported.
+" Keep Plugin commands between vundle#begin/end.
+" plugin on GitHub repo
+Plugin 'tpope/vim-fugitive'
+" Git plugin not hosted on GitHub
+Plugin 'git://git.wincent.com/command-t.git'
+
+Plugin 'derekwyatt/vim-scala'
+
+" git repos on your local machine (i.e. when working on your own plugin)
+" Plugin 'file:///home/gmarik/path/to/plugin'
+
+" The sparkup vim script is in a subdirectory of this repo called vim.
+" Pass the path to set the runtimepath properly.
+Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+
+" Rust syntax highlighting
+Plugin 'rust-lang/rust.vim'
+
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+"
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
+
 " set UTF-8 encoding
 set enc=utf-8
 set fenc=utf-8
 set termencoding=utf-8
-" disable vi compatibility (emulation of old bugs)
-set nocompatible
 " use indentation of previous line
 set autoindent
 " use intelligent indentation for C
 set smartindent
 " configure tabwidth and insert spaces instead of tabs
 set expandtab
-set tabstop=8        " tab width is 4 spaces
-set shiftwidth=8     " indent also with 4 spaces
+set tabstop=4        " tab width is 4 spaces
+set shiftwidth=4     " indent also with 4 spaces
 " set expandtab        " expand tabs to spaces
 " wrap lines at 120 chars. 80 is somewhat antiquated with nowadays displays.
-set textwidth=80
+set textwidth=120
 " turn syntax highlighting on
 set t_Co=256
 set nocscopeverbose
@@ -46,15 +104,13 @@ execute pathogen#infect()
 syntax on
 filetype plugin indent on
 
-:noremap <C-left> :bprev<CR> 
+:noremap <C-left> :bprev<CR>
 :noremap <C-right> :bnext<CR>
 
-" colorscheme wombat256
-colorscheme gummybears
+colorscheme wombat256
+" colorscheme gummybears
 " set background=dark
 
-" turn line numbers on
-set number
 " highlight matching braces
 set showmatch
 " intelligent comments
@@ -89,6 +145,8 @@ map <F7> :make<CR>
 map <S-F7> :make clean all<CR>
 " goto definition with F12
 map <F12> <C-]>
+map <Leader>n <plug>NERDTreeTabsToggle<CR>
+
 " in diff mode we use the spell check keys for merging
 if &diff
   " diff settings
@@ -113,3 +171,22 @@ match ExtraWhitespace /\s\+$/
 match ExtraWhitespace /\s\+$\| \+\ze\t/
 " Show tabs that are not at the start of a line:
 match ExtraWhitespace /[^\t]\zs\t\+/
+
+" IMPORTANT: grep will sometimes skip displaying the file name if you
+" search in a singe file. This will confuse Latex-Suite. Set your grep
+" program to always generate a file-name.
+set grepprg=grep\ -nH\ $*
+
+" OPTIONAL: This enables automatic indentation as you type
+filetype indent on
+
+" OPTIONAL: Starting with Vim 7, the filetype of empty .tex files defaults to
+" 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
+" The following changes the default filetype back to 'tex'
+let g:tex_flavor='latex'
+
+set hidden
+let g:racer_cmd = "/Users/nkatariy/rust-inDay-session/racer/target/release/racer"
+let $RUST_SRC_PATH="/Users/nkatariy/rust-inDay-session/rust/src/"
+
+set tabpagemax=100
