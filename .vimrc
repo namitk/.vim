@@ -72,16 +72,22 @@ set autoindent
 set smartindent
 " configure tabwidth and insert spaces instead of tabs
 set expandtab
+
 set tabstop=4        " tab width is 4 spaces
 set shiftwidth=4     " indent also with 4 spaces
 " set expandtab        " expand tabs to spaces
 " wrap lines at 120 chars. 80 is somewhat antiquated with nowadays displays.
 set textwidth=120
+
+" visible right margin indicator
+" set colorcolumn=120
+ 
 " turn syntax highlighting on
 set t_Co=256
 set nocscopeverbose
 set tags=tags;
 set statusline=%t
+noremap - :s/^\/\///<CR>
 
 hi User1 guifg=#ffdad8  guibg=#880c0e
 hi User2 guifg=#000000  guibg=#F4905C
@@ -99,6 +105,9 @@ set statusline+=%2*\ %y\                                  "FileType
 set statusline+=%8*\ %=\ row:%l/%L\ (%03p%%)\             "Rownumber/total (%)
 set statusline+=%9*\ col:%03c\                            "Colnr
 set statusline+=%0*\ \ %m%r%w\ %P\ \                      "Modified? Readonly? Top/bot.
+
+" allow backspace to join lines
+set backspace=indent,eol,start
 
 execute pathogen#infect()
 syntax on
