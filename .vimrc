@@ -2,8 +2,21 @@
 " Description: Optimized for C/C++ development, but useful also for other things.
 " Author: Gerhard Gappmeier
 
+filetype off
+call pathogen#incubate()
+filetype plugin indent on
+syntax on
+
 set nocompatible              " be iMproved, required
-filetype off                  " required
+
+set modelines=0
+
+set tabstop=4        " tab width is 4 spaces
+set shiftwidth=4     " indent also with 4 spaces
+set expandtab        " expand tabs to spaces
+set textwidth=120    " wrap lines at 120 chars
+" visible right margin indicator
+" set colorcolumn=120
 
 set backspace=indent,eol,start
 set ruler
@@ -13,79 +26,51 @@ set showcmd
 set incsearch
 set hlsearch
 
-set runtimepath^=~/.vim/bundle/ctrlp.vim
-let g:ctrlp_working_path_mode = 'ra'
-let g:nerdtree_tabs_open_on_console_startup=1
-let mapleader=" "
-
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" " alternatively, pass a path where Vundle should install plugins
-" "call vundle#begin('~/some/path/here')
-"
-" " let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
-"
-" The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
-" plugin on GitHub repo
-Plugin 'tpope/vim-fugitive'
-" Git plugin not hosted on GitHub
-Plugin 'git://git.wincent.com/command-t.git'
-
-Plugin 'derekwyatt/vim-scala'
-
-" git repos on your local machine (i.e. when working on your own plugin)
-" Plugin 'file:///home/gmarik/path/to/plugin'
-
-" The sparkup vim script is in a subdirectory of this repo called vim.
-" Pass the path to set the runtimepath properly.
-Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-
-" Rust syntax highlighting
-Plugin 'rust-lang/rust.vim'
-
-
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
-
 " set UTF-8 encoding
 set enc=utf-8
 set fenc=utf-8
 set termencoding=utf-8
-" use indentation of previous line
-set autoindent
-" use intelligent indentation for C
-set smartindent
-" configure tabwidth and insert spaces instead of tabs
-set expandtab
 
-set tabstop=4        " tab width is 4 spaces
-set shiftwidth=4     " indent also with 4 spaces
-" set expandtab        " expand tabs to spaces
-" wrap lines at 120 chars. 80 is somewhat antiquated with nowadays displays.
-set textwidth=120
+set autoindent " use indentation of previous line
+set smartindent " use intelligent indentation for C
 
-" visible right margin indicator
-" set colorcolumn=120
- 
-" turn syntax highlighting on
-set t_Co=256
-set nocscopeverbose
-set tags=tags;
+set t_Co=256 " turn syntax highlighting on
+
+set tabpagemax=100
+
+let g:airline_powerline_fonts = 1
+
+" The following is to get tab functionality via buffers
+" -----------------------------------------------------
+" Enable the list of buffers
+let g:airline#extensions#tabline#enabled = 1
+
+" Show just the filename
+let g:airline#extensions#tabline#fnamemod = ':t'
+
+let mapleader=" "
+" This allows buffers to be hidden if you've modified a buffer.
+" This is almost a must if you wish to use buffers in this way.
+set hidden
+" To open a new empty buffer
+" This replaces :tabnew which I used to bind to this mapping
+nmap <leader>T :enew<cr>
+" Move to the next buffer
+nmap <leader>l :bnext<CR>
+" Move to the previous buffer
+nmap <leader>h :bprevious<CR>
+" Close the current buffer and move to the previous one
+" This replicates the idea of closing a tab
+nmap <leader>bq :bp <BAR> bd #<CR>
+" Show all open buffers and their status
+nmap <leader>bl :ls<CR>
+" end of tab functionality via buffers
+" ------------------------------------
+
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+let g:ctrlp_working_path_mode = 'ra'
+let g:nerdtree_tabs_open_on_console_startup=1
+
 set statusline=%t
 noremap - :s/^\/\///<CR>
 
@@ -105,16 +90,17 @@ set statusline+=%2*\ %y\                                  "FileType
 set statusline+=%8*\ %=\ row:%l/%L\ (%03p%%)\             "Rownumber/total (%)
 set statusline+=%9*\ col:%03c\                            "Colnr
 set statusline+=%0*\ \ %m%r%w\ %P\ \                      "Modified? Readonly? Top/bot.
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 
-" allow backspace to join lines
-set backspace=indent,eol,start
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
 execute pathogen#infect()
-syntax on
-filetype plugin indent on
-
-:noremap <C-left> :bprev<CR>
-:noremap <C-right> :bnext<CR>
+call pathogen#helptags() "If you like to get crazy :)
 
 colorscheme wombat256
 " colorscheme gummybears
@@ -124,17 +110,6 @@ colorscheme wombat256
 set showmatch
 " intelligent comments
 set comments=sl:/*,mb:\ *,elx:\ */
-
-" Install OmniCppComplete like described on http://vim.wikia.com/wiki/C++_code_completion
-" This offers intelligent C++ completion when typing ‘.’ ‘->’ or <C-o>
-" Load standard tag files
-set tags+=~/.vim/tags/cpp
-set tags+=~/.vim/tags/gl
-set tags+=~/.vim/tags/sdl
-set tags+=~/.vim/tags/qt4
-
-" Install DoxygenToolkit from http://www.vim.org/scripts/script.php?script_id=987
-let g:DoxygenToolkit_authorName="Namit Katariya <nkatariy@andrew.cmu.edu>"
 
 " Enhanced keyboard mappings
 
@@ -194,8 +169,3 @@ filetype indent on
 " The following changes the default filetype back to 'tex'
 let g:tex_flavor='latex'
 
-set hidden
-let g:racer_cmd = "/Users/nkatariy/rust-inDay-session/racer/target/release/racer"
-let $RUST_SRC_PATH="/Users/nkatariy/rust-inDay-session/rust/src/"
-
-set tabpagemax=100
